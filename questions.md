@@ -1,0 +1,2 @@
+# [What is the difference between a framework and library?](https://medium.com/@madhurgarg/library-vs-framework-ef1450bdfb87)
+-- Conclusion: Library gives you a set of functions/modules/APIs which you can use to solve a certain problem, but it doesn’t change your code on the structural or architectural level. On the other hand, frameworks also give you a set of functions/modules/APIs but it does change your code on the structural or architectural level. Library — you call it, Framework — it calls you.
