@@ -104,3 +104,105 @@
     - 501 Method Not Implemented: The request method used is invalid (could be caused by a typing error, e.g., "GET" misspell as "Get").
     - 502 Bad Gateway: Proxy or Gateway indicates that it receives a bad response from the upstream server.
     - 503 Service Unavailable: Server cannot response due to overloading or maintenance.
+
+8. Authentication workflow
+    1. User enters an URL on the browser
+    2. Browser sends HTTP GET request for a page within the __protected realm__ to the server
+    3. The server responds with a __HTTP/1.1 401 Unauthorized__ with __WWW-Authenticate: Basic realm="<username>"__
+    4. The browser prompts the user for username and password
+    5. Browser send HTTP GET with __Authorization: Basic d2lyZXNoYXJrLXN0dWRlbnRzOm5ldHdvcms=\r\n__
+    6. The server Base64 decodes and verifies the credential and responds with the page
+
+9. HTTP Conditional Get workflow
+  1. User enters an URL on the browser
+  2. Browser sends HTTP GET request for the page
+  3. The server responds with a __HTTP/1.1 200 OK__ with __Last-Modified__ and __ETag__
+        ```
+      Hypertext Transfer Protocol
+          HTTP/1.1 200 OK\r\n
+          Date: Sun, 06 Dec 2020 14:53:12 GMT\r\n
+          Server: Apache/2.4.6 (CentOS) OpenSSL/1.0.2k-fips PHP/7.4.12 mod_perl/2.0.11 Perl/v5.16.3\r\n
+          Last-Modified: Sun, 06 Dec 2020 06:59:03 GMT\r\n
+          ETag: "173-5b5c63eaae181"\r\n
+          Accept-Ranges: bytes\r\n
+          Content-Length: 371\r\n
+          Keep-Alive: timeout=5, max=100\r\n
+          Connection: Keep-Alive\r\n
+          Content-Type: text/html; charset=UTF-8\r\n
+          \r\n
+          [HTTP response 1/1]
+          [Time since request: 0.074088756 seconds]
+          [Request in frame: 5]
+          [Request URI: http://gaia.cs.umass.edu/wireshark-labs/HTTP-wireshark-file2.html]
+          File Data: 371 bytes
+      Line-based text data: text/html (10 lines)
+          \n
+          <html>\n
+          \n
+          Congratulations again!  Now you've downloaded the file lab2-2.html. <br>\n
+          This file's last modification date will not change.  <p>\n
+          Thus  if you download this multiple times on your browser, a complete copy <br>\n
+          will only be sent once by the server due to the inclusion of the IN-MODIFIED-SINCE<br>\n
+          field in your browser's HTTP GET request to the server.\n
+          \n
+          </html>\n
+      ```
+  4. On refreshing the page the browser sends the GET request with __If-None-Match__ and __If-Modified-Since__
+      ```
+        Hypertext Transfer Protocol
+            GET /wireshark-labs/HTTP-wireshark-file2.html HTTP/1.1\r\n
+            Host: gaia.cs.umass.edu\r\n
+            Connection: keep-alive\r\n
+            Cache-Control: max-age=0\r\n
+            DNT: 1\r\n
+            Upgrade-Insecure-Requests: 1\r\n
+            User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.66 Safari/537.36\r\n
+            Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9\r\n
+            Accept-Encoding: gzip, deflate\r\n
+            Accept-Language: en-US,en;q=0.9\r\n
+            If-None-Match: "173-5b5c63eaae181"\r\n
+            If-Modified-Since: Sun, 06 Dec 2020 06:59:03 GMT\r\n
+            \r\n
+            [Full request URI: http://gaia.cs.umass.edu/wireshark-labs/HTTP-wireshark-file2.html]
+            [HTTP request 1/1]
+            [Response in frame: 21]
+      ```
+  5. Server responds with __304 Not Modified__ and does NOT re-send the page.
+      ```
+      Hypertext Transfer Protocol
+          HTTP/1.1 304 Not Modified\r\n
+          Date: Sun, 06 Dec 2020 14:53:19 GMT\r\n
+          Server: Apache/2.4.6 (CentOS) OpenSSL/1.0.2k-fips PHP/7.4.12 mod_perl/2.0.11 Perl/v5.16.3\r\n
+          Connection: Keep-Alive\r\n
+          Keep-Alive: timeout=5, max=100\r\n
+          ETag: "173-5b5c63eaae181"\r\n
+          \r\n
+          [HTTP response 1/1]
+          [Time since request: 0.071557096 seconds]
+          [Request in frame: 16]
+          [Request URI: http://gaia.cs.umass.edu/wireshark-labs/HTTP-wireshark-file2.html]
+      ```
+10. Long Page Request Workflow ( when the response is >1500 bytes usually)
+  1. User enters an URL on the browser
+  2. Browser sends HTTP GET request for the page
+  3. The server responds with a __HTTP/1.1 200 OK__
+  4. TCP segments the data and reassembles the segments
+
+    ```
+      [4 Reassembled TCP Segments (4861 bytes): #50(1440), #52(1440), #54(1440), #55(541)]
+          [Frame: 50, payload: 0-1439 (1440 bytes)]
+          [Frame: 52, payload: 1440-2879 (1440 bytes)]
+          [Frame: 54, payload: 2880-4319 (1440 bytes)]
+          [Frame: 55, payload: 4320-4860 (541 bytes)]
+          [Segment count: 4]
+          [Reassembled TCP length: 4861]
+          [Reassembled TCP Data: 485454502f312e3120323030204f4b0d0a446174653a2053…]
+    ```
+11. Request with embedded resources workflow
+  1. Same flow for the main Page
+  2. Browser __sequentially__ sends request for the each of the embedded resources
+
+Glossary
+1. DNT - Do Not Track : A web browser setting that requests that the web application disable tracking of an individual user (0 - Yes | 1 - No | Null - No preference)
+  - No consensus on how DNT needs to be inpterpreted and hence most sites do not change their behavior
+2. ETag - Entity Tag :  response header provides a mechanism to cache unchanged resources. It's value is an identifier which represents a specific version of the resource.
