@@ -10,4 +10,7 @@ Notes from Ben Eater's youtube video on networking
 7. its the transition that is counted as a data.
 8. Ethernet frame --> TCP/UDP frame --> IP frame-->HTTP frame
 9. ARP -address resolution protocol - used to associate the IP address to the MAC(media access control) address
-10.
+  - Host broadcasts the Destination IP address  which is matched by the local router (e.g. 255.255.255.0/24 means you match the 1st 24 bits)
+  - router then works through DNS to get the mac address of the Destination
+10. TCP connection is established
+11. HTTP packets are framed within the TCP frame.  
