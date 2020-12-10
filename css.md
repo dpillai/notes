@@ -37,7 +37,67 @@
     4. There is a shortcut available to set several flex properties at once. The flex-grow, flex-shrink, and flex-basis properties can all be set together by using the flex property. For example, ```flex: 1 0 10px;``` will set the item to flex-grow: 1;, flex-shrink: 0;, and flex-basis: 10px;
         - The default property settings are ```flex: 0 1 auto;```.
 
+CSS GRID
+1. Apply ```display: grid;``` to element to apply css grid.
+2. Parent element is called contrainer.
+3. Apply ```grid-template-columns: 100px 100px 100px;``` to define the number and size of columns. Same for ```grid-template-rows: 50px 50px;```.
+    - ```grid-template-columns: auto 50px 10% 2fr 1fr;```
+4. To have spacing betweens columns ```grid-column-gap: 10px;``` Same for rows.
+    - You can use ```repeat``` function like
+    ``` grid-template-columns: repeat(x times, 50px);``` or ```    grid-template-columns: repeat(2, 1 fr 50px) 20px;```
+        - ```auto-fill``` to create as many columns/rows within the container instead ofspecifying the number. For e.g. ```repeat(auto-fill, minmax(60px, 1fr));```. Note: Repeat does not repeat the items of the container. So remaining rows or columns will be empty once items have been postioned in the cells.
+        - Instead ```auto-fit``` collapses those empty rows or columns and stretches your items to fit the size of the container.
+    - Use ```minmax``` function to set cell size when container size changes like ```grid-template-columns: 100px minmax(50px, 200px);``` to set 1st column to 100px and 2nd column between 50 and 200px or ```grid-template-columns: repeat(3, minmax(90px, 1fr));```
+5. ```grid-gap``` is a shorthand property for grid-row-gap and grid-column-gap from the previous two challenges that's more convenient to use. If grid-gap has one value, it will create a gap between all rows and columns. However, if there are two values, it will use the first one to set the gap between the rows and the second value for the columns.
+6. To set the number of columns a item may take use ```grid-column: x / y``` where x and y are the starting and ending lines of the grid. for e.g. ```grid-column: 1 /3 will take the first two columns. Same for rows.
+7. In CSS Grid, the content of each item is located in a box which is  referred to as a cell. You can align the content's position within its  cell horizontally using the ```justify-self``` property on a grid item.
+    - ```start```: aligns the content at the left of the cell,
+    - ```center```: aligns the content in the center of the cell
+    - ```end```: aligns the content at the right of the cell.
+    - ```stretch``` : default that stretches the content
+    - e.g. ```justify-self: center;```
+8. Use ```align-self``` to aligns the content vertically within a cell
+    -   e.g. ```align-self: center;```
+9. Use ```justify-item``` and ```align-items``` to collectively align content in the cells. Same options as #6 and #7.
+10. Use group cells together into areas by using ```grid-template-areas``and listing each cell by the group name ans each on each row enclosed in double quotes
+    - e.g.  for a 3x3 grid
+    ```
+    grid-template-areas:
+    "header header header"
+    "advert content content"
+    "footer footer footer"
+    ```
+11. Once area is set, you can use it to place items in those areas. for e.g.```.item4 {grid-area: header;}```
+12. ONe can specify ```grid-area: 1 / 1 / 3 / 4;```instead of #11 which is ```grid-area: horizontal line to start at / vertical line to start at / horizontal line to end at / vertical line to end at;```
+13. User ```@media``` queries to change dimensions of the grid and placement of items.
+```
+  .container {
+    font-size: 1.5em;
+    min-height: 300px;
+    width: 100%;
+    background: LightGray;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 50px auto 1fr auto;
+    grid-gap: 10px;
+    grid-template-areas:
+      "header"
+      "advert"
+      "content"
+      "footer";
+  }
 
-
+  @media (min-width: 300px){
+    .container{
+      grid-template-columns: auto 1fr;
+      grid-template-rows: auto 1fr auto;
+      grid-template-areas:
+        "advert header"
+        "advert content"
+        "advert footer";
+    }
+  }
+  ```
+  14. You can always create grid within a grid.
 
 
