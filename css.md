@@ -58,7 +58,7 @@ CSS GRID
     - e.g. ```justify-self: center;```
 8. Use ```align-self``` to aligns the content vertically within a cell
     -   e.g. ```align-self: center;```
-9. Use ```justify-item``` and ```align-items``` to collectively align content in the cells. Same options as #6 and #7.
+9. Use ```justify-items``` and ```align-items``` to collectively align content in the cells. Same options as #7 and #8.
 10. Use group cells together into areas by using ```grid-template-areas``and listing each cell by the group name ans each on each row enclosed in double quotes
     - e.g.  for a 3x3 grid
     ```
