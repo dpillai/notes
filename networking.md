@@ -14,3 +14,11 @@ Notes from Ben Eater's youtube video on networking
   - router then works through DNS to get the mac address of the Destination
 10. TCP connection is established
 11. HTTP packets are framed within the TCP frame.  
+
+
+
+IP Datagram header
+1. Minimum 20 bytes in length
+![IP Datagram Header](https://github.com/dpillai/notes/images/main/IP Datagram Header.png?raw=true)
+
+2. 
