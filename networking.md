@@ -19,4 +19,4 @@ Notes from Ben Eater's youtube video on networking
 
 IP Datagram header
 1. Minimum 20 bytes in length
-!IP Datagram Header(https://github.com/dpillai/notes/images/ip-datagram-header.png?raw=true)
+![IP Datagram Header](images/ip-datagram-header.png)
