@@ -1,7 +1,7 @@
 From ![Oauth 2.0 Primer](https://www.youtube.com/watch?v=996OiexHze0)
 
 3 actors
-  ![IP Datagram Header](images/ip-datagram-header.png)-Resource Owner : the end user
+  -Resource Owner : the end user
   -Client         : The application
   -Authorization Owner: The party that stores and controls access to the resource being sought by the client
 
