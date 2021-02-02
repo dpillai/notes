@@ -7,7 +7,7 @@ From [Oauth 2.0 Primer](https://www.youtube.com/watch?v=996OiexHze0)
 
 Flow
 
-![Oauth 2.0 Basic Flow](images/Outh2_O.png)
+![Oauth 2.0 Basic Flow](images/Outh2_0.png)
 
 - Request access from Resource Owner for resource (//grant access to google contact list)
 - On approval client sends a request to authorization server w scope as the resource in question
