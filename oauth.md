@@ -6,6 +6,7 @@ From [Oauth 2.0 Primer](https://www.youtube.com/watch?v=996OiexHze0)
   -Authorization Owner: The party that stores and controls access to the resource being sought by the client
 
 Flow
+
 ![Oauth 2.0 Basic Flow](images/Outh2_O.png)
 
 - Request access from Resource Owner for resource (//grant access to google contact list)
